@@ -7,8 +7,12 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.SimpleTimeZone;
 
@@ -20,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class Test extends JFrame implements ActionListener{
+public  class Test extends JFrame implements ActionListener{
 	 /**
 	 * 
 	 */
@@ -29,20 +33,31 @@ public class Test extends JFrame implements ActionListener{
 	 JButton pintar;
 	 JLabel posicion_x;
 	 JLabel posicion_y;
-	 JLabel Titulo;
-	 JButton borrar;
+	 JLabel Titulo,colortitulo,objeto;
+	 JButton borrar,zoomas,zoomenos;
 	 JButton pintar_alg1;
-	 JLabel[][]  matriznumeros;
-	 Border border;
+	 JButton pintar_alg2;
+	 JButton pintar_alg3;
+	 JButton pintar_alg4;
+	 JButton rellenar;
+	 JButton up,down,right,left;
+	 static JLabel[][]  matriznumeros;
+	 int valor = 10;
+	 
+
+	 
 	 JFrame ventana;
 	 JPanel mainPanel;
-	 JPanel cuadriculaPanel;
+	 static JPanel cuadriculaPanel;
 	 JTextField areax;
 	 JTextField areay;
-	 JTextField areaxa,areaya,areaxb,areayb;
-	 JLabel p1,p2;
-	 int[] numeros;
+	 static JTextField areaxa,areaya,areaxb,areayb,areaxc,areayc;
+	 JLabel p1,p2,p3;
+	 int[] color= new int[3];
 	 int count;
+	 Border border;
+	 Algoritmos alg;
+	 JButton c1,c2,c3,c4,c5,c6,c7,c8;
 	 
 	 
 	 
@@ -50,14 +65,14 @@ public class Test extends JFrame implements ActionListener{
 	public Test()
 	{
 		  count = 1;
-		 numeros = new int[4];
-		    for(int r=0;r<numeros.length;r++)
-		    {
-		    	numeros[r]=9999;
-		    }
+		 color[0]=255;
+		 color[1]=255;
+		 color[2]=255;
 		    int n=100;
-		
-		
+		    
+		   
+		    
+		    border = BorderFactory.createLineBorder(Color.black, 1);
 	        ventana = new JFrame("Cuadrícula");
 	
 	        ventana.setSize(1500,1000);
@@ -66,12 +81,75 @@ public class Test extends JFrame implements ActionListener{
 	        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        
 	        mainPanel = new JPanel();
-	        
 	        mainPanel.setBounds((1000), 0, (500), 1000);
 	        mainPanel.setVisible(true);
 	        mainPanel.setLayout(null);
 	        mainPanel.setBackground(Color.CYAN);
 	        ventana.add(mainPanel);
+	        
+	        colortitulo = new JLabel("Colores");
+	        colortitulo.setBounds(220, 550, 100, 25);
+	       
+	       
+	        mainPanel.add(colortitulo);
+	        
+	        c1 = new JButton();
+	        c1.setBounds(200, 600, 100, 25);
+	        c1.setBackground(Color.BLUE);
+	        c1.setOpaque(true);
+	        c1.addActionListener(this);
+	        mainPanel.add(c1);
+	        
+	        c2 = new JButton();
+	        c2.setBounds(200, 625, 100, 25);
+	        c2.setBackground(Color.DARK_GRAY);
+	        c2.setOpaque(true);
+	        c2.addActionListener(this);
+	        mainPanel.add(c2);
+	        
+	        c3 = new JButton();
+	        c3.setBounds(200, 650, 100, 25);
+	        c3.setBackground(Color.GREEN);
+	        c3.setOpaque(true);
+	        c3.addActionListener(this);
+	        mainPanel.add(c3);
+	        
+	        c4 = new JButton();
+	        c4.setBounds(200, 675, 100, 25);
+	        c4.setBackground(Color.magenta);
+	        c4.setOpaque(true);
+	        c4.addActionListener(this);
+	        mainPanel.add(c4);
+	        
+	        c5 = new JButton();
+	        c5.setBounds(200, 700, 100, 25);
+	        c5.setBackground(Color.PINK);
+	        c5.setOpaque(true);
+	        c5.addActionListener(this);
+	        mainPanel.add(c5);
+	        
+	        c6 = new JButton();
+	        c6.setBounds(200, 725, 100, 25);
+	        c6.setBackground(Color.BLACK);
+	        c6.setOpaque(true);
+	        c6.addActionListener(this);
+	        mainPanel.add(c6);
+	        
+	        c7 = new JButton();
+	        c7.setBounds(200, 750, 100, 25);
+	        c7.setBackground(Color.YELLOW);
+	        c7.setOpaque(true);
+	        c7.addActionListener(this);
+	        mainPanel.add(c7);
+	        
+	        c8 = new JButton();
+	        c8.setBounds(200, 775, 100, 25);
+	        c8.setBackground(Color.WHITE);
+	        c8.setOpaque(true);
+	        c8.addActionListener(this);
+	        mainPanel.add(c8);
+	        
+	        
 	        
 	        cuadriculaPanel = new JPanel();
 	        
@@ -81,11 +159,9 @@ public class Test extends JFrame implements ActionListener{
 	        
 	        ventana.add(cuadriculaPanel);
 	        
+	        
 	     
-	        border = BorderFactory.createLineBorder(Color.black, 1);
-	        Point punto=MouseInfo.getPointerInfo().getLocation();
-	        int xx=punto.x;
-	        int yy=punto.y;
+	 //       border = BorderFactory.createLineBorder(Color.black, 1);
 	        
 	        Titulo = new JLabel();
 	        Titulo.setBounds(200, 0,100, 25);
@@ -115,13 +191,75 @@ public class Test extends JFrame implements ActionListener{
 	        borrar.setBounds(300, 200, 100, 25);
 	        borrar.addActionListener(this);
 	        mainPanel.add(borrar);
+	        
+	        zoomas = new JButton();
+	        zoomas.setText("zoom +");
+	        zoomas.setBounds(300, 300, 100, 25);
+	        zoomas.addActionListener(this);
+	        mainPanel.add(zoomas);
+	        
+	        
+	        zoomenos = new JButton();
+	        zoomenos.setText("zoom -");
+	        zoomenos.setBounds(300, 400, 100, 25);
+	        zoomenos.addActionListener(this);
+	        mainPanel.add(zoomenos);
 	       
 	        	        
 	        pintar_alg1 = new JButton();
-	        pintar_alg1.setText("Pintar_algoritmo 1");
+	        pintar_alg1.setText("Algoritmo DDA");
 	        pintar_alg1.setBounds(0, 200, 150, 25);
 	        pintar_alg1.addActionListener(this);
 	        mainPanel.add(pintar_alg1);
+	        
+	        pintar_alg2 = new JButton();
+	        pintar_alg2.setText("Algoritmo Bresenham");
+	        pintar_alg2.setBounds(0, 280, 200, 25);
+	        pintar_alg2.addActionListener(this);
+	        mainPanel.add(pintar_alg2);
+	        
+	        pintar_alg3 = new JButton();
+	        pintar_alg3.setText("Algoritmo circulo");
+	        pintar_alg3.setBounds(0, 350, 200, 25);
+	        pintar_alg3.addActionListener(this);
+	        mainPanel.add(pintar_alg3);
+	        
+	        pintar_alg4 = new JButton();
+	        pintar_alg4.setText("Algoritmo midpoint");
+	        pintar_alg4.setBounds(0, 420, 200, 25);
+	        pintar_alg4.addActionListener(this);
+	        mainPanel.add(pintar_alg4);
+	        //mover figura
+	        up = new JButton();
+	        up.setText("Arriba");
+	        up.setBounds(200, 880, 80, 25);
+	        up.addActionListener(this);
+	        mainPanel.add(up);
+	        
+	        down = new JButton();
+	        down.setText("Abajo");
+	        down.setBounds(200, 915, 80, 25);
+	        down.addActionListener(this);
+	        mainPanel.add(down);
+	        
+	        right = new JButton();
+	        right.setText("Derecha");
+	        right.setBounds(280, 915, 100, 25);
+	        right.addActionListener(this);
+	        mainPanel.add(right);
+	        
+	        left = new JButton();
+	        left.setText("Izquierda");
+	        left.setBounds(100, 915, 100, 25);
+	        left.addActionListener(this);
+	        mainPanel.add(left);
+	        
+	        
+	        rellenar = new JButton();
+	        rellenar.setText("rellenar");
+	        rellenar.setBounds(0, 480, 200, 25);
+	        rellenar.addActionListener(this);
+	        mainPanel.add(rellenar);
 	        
 	        areax = new JTextField();
 	        areax.setText("0");
@@ -162,6 +300,21 @@ public class Test extends JFrame implements ActionListener{
 	        areayb.setText("0");
 	        areayb.setBounds(250, 400, 25, 25);
 	        mainPanel.add(areayb);
+	        
+	        p3 = new JLabel();
+	        p3.setBounds(220,450, 100, 25);
+	        p3.setText("PUNTO 3");
+	        mainPanel.add(p3);
+	        
+	        areaxc = new JTextField();
+	        areaxc.setText("0");
+	        areaxc.setBounds(200, 500, 25, 25);
+	        mainPanel.add(areaxc);
+	        
+	        areayc = new JTextField();
+	        areayc.setText("0");
+	        areayc.setBounds(250, 500, 25, 25);
+	        mainPanel.add(areayc);
 	              
 
 
@@ -175,7 +328,7 @@ public class Test extends JFrame implements ActionListener{
             		
             	}
             }
-           formar_cuadricula_base();
+          formar_cuadricula_base(10);
            
            for(int a=0;a<matriznumeros.length;a++)
            {
@@ -191,7 +344,7 @@ public class Test extends JFrame implements ActionListener{
         		        	   {
         		        	     if(matriznumeros[a1][b1]==ev.getSource())
         		        	     {
-        		        	    	 posiciones(a1, b1);
+        		        	    	 Algoritmos.posiciones(a1, b1);
         		        	    	 System.out.println("posicion x "+b1+" y "+a1);
         		        	     }
         		        	   }
@@ -211,14 +364,53 @@ public class Test extends JFrame implements ActionListener{
         
 	}
 	 public void actionPerformed(ActionEvent e) {
+		
 	        if (e.getSource()==borrar) {
 	        	
 	        	cuadriculaPanel.removeAll();
 	        	cuadriculaPanel.revalidate();
 	        	cuadriculaPanel.repaint();
-	        	 formar_cuadricula_base();
+
+	               for(int x=0;x<matriznumeros.length;x++)
+		            {
+		             	for(int y=0;y<matriznumeros.length;y++)
+		             	{
+		             		
+		             		
+		             		matriznumeros[x][y].setBounds(x*valor, y*valor, valor,valor);
+		             		cuadriculaPanel.add(matriznumeros[x][y],0);
+		             		
+		             	}
+		             }
 	        	
 	        	 
+	        }
+	        if(e.getSource()==zoomas)
+	        {
+	        	cuadriculaPanel.removeAll();
+	        	cuadriculaPanel.revalidate();
+	        	cuadriculaPanel.repaint();
+	        	valor += 5;
+	        	
+               for(int x=0;x<matriznumeros.length;x++)
+	            {
+	             	for(int y=0;y<matriznumeros.length;y++)
+	             	{
+	             		
+	             		
+	             		matriznumeros[x][y].setBounds(x*valor, y*valor, valor,valor);
+	             		cuadriculaPanel.add(matriznumeros[x][y],0);
+	             		
+	             	}
+	             }
+	        }
+	        if(e.getSource()==zoomenos)
+	        {
+	        	valor -= 5;
+	        	cuadriculaPanel.removeAll();
+	        	cuadriculaPanel.revalidate();
+	        	cuadriculaPanel.repaint();
+	        	formar_cuadricula_base(valor);
 	        }
 	        if(e.getSource()==pintar)
 	        {
@@ -227,13 +419,122 @@ public class Test extends JFrame implements ActionListener{
 	        }
 	        if(e.getSource()==pintar_alg1)
 	        {
-	        	crear_algoritmo_1(Integer.parseInt((areaxa.getText())), Integer.parseInt((areaya.getText())), Integer.parseInt((areaxb.getText())), Integer.parseInt((areayb.getText())));
+	        	Algoritmos.crear_algoritmo_1(Integer.parseInt((areaxa.getText())), Integer.parseInt((areaya.getText())), Integer.parseInt((areaxb.getText())), Integer.parseInt((areayb.getText())),color);
 	        }
+	        if(e.getSource()==pintar_alg2)
+	        {
+	        	Algoritmos.algoritmobresenham(Integer.parseInt((areaxa.getText())), Integer.parseInt((areaya.getText())), Integer.parseInt((areaxb.getText())), Integer.parseInt((areayb.getText())),color);
+	        }
+	        if(e.getSource()==pintar_alg3)
+	        {
+	        	 double respuest;
+	             double res1,res2;
+              int x1=Integer.parseInt((areaxa.getText()));
+              int y1=Integer.parseInt((areaya.getText()));
+              int x2= Integer.parseInt((areaxb.getText()));
+              int y2= Integer.parseInt((areayb.getText()));
+	             res1=x2-x1;   res2=y2-y1;
+	             res1=Math.pow(res1, 2)+Math.pow(res2, 2);
+	             respuest=(int)Math.sqrt(res1);
+	             System.out.println(respuest);
+	              Algoritmos.pintarcirculo(x1, y1, (int)respuest,color);
+	        }
+	        if(e.getSource()==pintar_alg4)
+	        {
+	        	int rx,ry;
+	             double res1,res2;
+	        	int x1=Integer.parseInt((areaxa.getText()));
+	              int y1=Integer.parseInt((areaya.getText()));
+	              int x2= Integer.parseInt((areaxb.getText()));
+	              int y2= Integer.parseInt((areayb.getText()));
+		             res1=x2-x1;   res2=y2-y1;
+		             res1=Math.pow(res1, 2)+Math.pow(res2, 2);
+		             rx=(int)Math.sqrt(res1);
+		              x1=Integer.parseInt((areaxa.getText()));
+		              y1=Integer.parseInt((areaya.getText()));
+		              x2= Integer.parseInt((areaxc.getText()));
+		               y2= Integer.parseInt((areayc.getText()));
+			             res1=x2-x1;   res2=y2-y1;
+			             res1=Math.pow(res1, 2)+Math.pow(res2, 2);
+			             ry=(int)Math.sqrt(res1);
+			             System.out.println("x"+rx+" y"+ry);
+			             Algoritmos.ellipseMidpoint(x1, y1, rx, ry,color);
+		            
+	        }
+	        if(e.getSource()==c1)
+	        {
+	        	color[0] =6;
+	        	color[1]=57;
+	        	color[2]=113;
+	        }
+	        if(e.getSource()==c2)
+	        {
+	        	color[0] =76;
+	        	color[1]=81;
+	        	color[2]=074;
+	        }
+	        if(e.getSource()==c3)
+	        {
+	        	color[0] =124;
+	        	color[1]=252;
+	        	color[2]=0;
+	        }
+	        if(e.getSource()==c4)
+	        {
+	        	color[0] =255;
+	        	color[1]=58;
+	        	color[2]=255;
+	        }
+	        if(e.getSource()==c5)
+	        {
+	        	color[0] =255;
+	        	color[1]=192;
+	        	color[2]=203;
+	        }
+	        if(e.getSource()==c6)
+	        {
+	        	color[0] =0;
+	        	color[1]=0;
+	        	color[2]=0;
+	        }
+	        if(e.getSource()==c7)
+	        {
+	        	color[0] =255;
+	        	color[1]=255;
+	        	color[2]=0;
+	        }
+	        if(e.getSource()==c8)
+	        {
+	        	color[0] =255;
+	        	color[1]=255;
+	        	color[2]=255;
+	        }
+	        if(e.getSource()==rellenar)
+	        {
+	        	Algoritmos.fill(Integer.parseInt((areaxa.getText())),Integer.parseInt((areaya.getText())) ,color);
+	        }
+	        if(e.getSource()==up)
+	        {
+	        	Algoritmos.mover("up");
+	        }
+	        if(e.getSource()==down)
+	        {
+	        	Algoritmos.mover("down");
+	        }
+	        if(e.getSource()==right)
+	        {
+	        	Algoritmos.mover("right");
+	        }
+	        if(e.getSource()==left)
+	        {
+	        	Algoritmos.mover("left");
+	        }
+	        
 	    }
 	 
-	 public void formar_cuadricula_base()
+	 public void formar_cuadricula_base(int volumen)
 	 {
-		 
+		 int asd= 20;
 		 for(int x=0;x<matriznumeros.length;x++)
          {
          	for(int y=0;y<matriznumeros.length;y++)
@@ -243,64 +544,20 @@ public class Test extends JFrame implements ActionListener{
          		matriznumeros[x][y].setBorder(border);
          		matriznumeros[x][y].setOpaque(true);
          		matriznumeros[x][y].setVisible(true);
-         		matriznumeros[x][y].setBounds(x*10, y*10, 10, 10);
+         		matriznumeros[x][y].setBounds(x*volumen, y*volumen, volumen, volumen);
          		cuadriculaPanel.add(matriznumeros[x][y],0);
          		
          	}
          }
-	 }
-	 public void crear_algoritmo_1(int xa,int ya,int xb,int yb)
-	 {
-		 int dx = xb-xa;
-		 int dy = yb-ya;
-		 int steps,k;
-		 float xincrement,yincrement,x,y;
-		 x =xa;
-		 y = ya;
-		 
-		 if(Math.abs(dx)> Math.abs(dy))
-		 {
-			 steps = Math.abs(dx);
-		 }
-		 else
-		 {
-			 steps= Math.abs(dy);
-		 }
-		 xincrement = dx/((float)steps);
-		 yincrement = dy/((float)steps);
-		  matriznumeros[Math.round(x)][Math.round(y)].setBackground(Color.BLUE);
-		 for(k=0;k<steps;k++)
-		 {
-			 x += xincrement;
-			 y += yincrement;
-			 matriznumeros[Math.round(x)][Math.round(y)].setBackground(Color.BLUE);
-		 }
-	 }
-	 public void posiciones(int x,int y)
-	 {
-		 
-		 
-		 if(count==1)
-		 {
-			 areaxa.setText(""+x);
-			 areaya.setText(""+y);
-			 count=2;
-		 }
-		 else 
-		 {
-			 areaxb.setText(""+x);
-			 areayb.setText(""+y);
-			 count=1;
-			 System.out.println("dadsasd");
-		 }
-		 
-		
-		  
-		 
-	 }
-    public static void main(String[] args){
-    
+	 }/*
+	 
+	 }*/
+	 
+	 public static void main(String[] args){
+         
+	    	
+
          new Test();
     
-    }  
+    }
 }
