@@ -12,34 +12,30 @@ public class Algoritmos {
 	static Border border =  BorderFactory.createLineBorder(Color.black, 1);
 	static ArrayList<Integer> Puntos = new ArrayList<Integer>();
 	static int count=1;
+	static int k=0;
 	static int numeros_objeto=1;
 	static int []posicion= new int[6];
 	//ArrayList<String>[][] list = new ArrayList[10][10];
 	static ArrayList<ArrayList<Integer>> aObject = new ArrayList<ArrayList<Integer>>();
 
-	
+
 	public Algoritmos()
 	{
-		/*
-		border = BorderFactory.createLineBorder(Color.black, 1);
-		Puntos = new ArrayList<Integer>();
-		System.out.println(Test.matriznumeros[0][0].getBackground()+"swdaw");
-		aObject = new ArrayList<ArrayList<Integer>>();
-		aObject.add(new ArrayList<Integer>());*/
+
 	}
 
 
 	public static void crear_algoritmo_1(int xa,int ya,int xb,int yb,int[]color)
 	{
 		aObject.add(new ArrayList<Integer>());
-		
+
 		int dx = xb-xa;
 		int dy = yb-ya;
 		int steps,k;
 		float xincrement,yincrement,x,y;
 		x =xa;
 		y = ya;
-		
+
 
 		if(Math.abs(dx)> Math.abs(dy))
 		{
@@ -51,7 +47,7 @@ public class Algoritmos {
 		}
 		xincrement = dx/((float)steps);
 		yincrement = dy/((float)steps);
-		
+
 		Test.matriznumeros[Math.round(x)][Math.round(y)].setBackground(new Color(color[0],color[1],color[2]));
 		aObject.get(0).add(new Integer(Math.round(x)));
 		aObject.get(0).add(new Integer(Math.round(y)));
@@ -59,12 +55,12 @@ public class Algoritmos {
 		aObject.get(0).add(new Integer(color[0]));
 		aObject.get(0).add(new Integer(color[1]));
 		aObject.get(0).add(new Integer(color[2]));
-		
+
 		for(k=0;k<steps;k++)
 		{
 			x += xincrement;
 			y += yincrement;
-			
+
 			Test.matriznumeros[Math.round(x)][Math.round(y)].setBackground(new Color(color[0],color[1],color[2]));
 			aObject.add(new ArrayList<Integer>());
 			aObject.get(k+1).add(new Integer(Math.round(x)));
@@ -176,17 +172,82 @@ public class Algoritmos {
 			}
 			pintarcirpuntos(xcenter, ycenter, x, y,color);
 		}
+		numeros_objeto++;
 	}
 	public static void pintarcirpuntos(int xcenter,int ycenter, int x, int y,int[]color)
 	{
 		Test.matriznumeros[xcenter+x][ycenter+y].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter+x));
+		aObject.get(k).add(new Integer(ycenter+y));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter-x][ycenter+y].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter-x));
+		aObject.get(k).add(new Integer(ycenter+y));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter+x][ycenter-y].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter+x));
+		aObject.get(k).add(new Integer(ycenter-y));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter-x][ycenter-y].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter-x));
+		aObject.get(k).add(new Integer(ycenter-y));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter+y][ycenter+x].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter+y));
+		aObject.get(k).add(new Integer(ycenter+x));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter-y][ycenter+x].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter-y));
+		aObject.get(k).add(new Integer(ycenter+x));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter+y][ycenter-x].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter+y));
+		aObject.get(k).add(new Integer(ycenter-x));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 		Test.matriznumeros[xcenter-y][ycenter-x].setBackground(new Color(color[0],color[1],color[2]));
+		aObject.add(new ArrayList<Integer>());
+		aObject.get(k).add(new Integer(xcenter-y));
+		aObject.get(k).add(new Integer(ycenter-x));
+		aObject.get(k).add(new Integer(numeros_objeto));
+		aObject.get(k).add(new Integer(color[0]));
+		aObject.get(k).add(new Integer(color[1]));
+		aObject.get(k).add(new Integer(color[2]));
+		k++;
 
 
 	}
@@ -218,27 +279,27 @@ public class Algoritmos {
 
 				//
 			}
-		
+
 			ellipsePlotPoints (xCenter, yCenter, x, y,color);
 		}
-			/* Region 2 */
-			p = (int) Math.round (Ry2*(x+0.5)*(x+0.5) + Rx2*(y-1)*(y-1) - Rx2*Ry2);
-			while (y > 0) 
+		/* Region 2 */
+		p = (int) Math.round (Ry2*(x+0.5)*(x+0.5) + Rx2*(y-1)*(y-1) - Rx2*Ry2);
+		while (y > 0) 
+		{
+			y--;
+			py -= twoRx2;
+			if (p > 0)
 			{
-				y--;
-				py -= twoRx2;
-				if (p > 0)
-				{
-					p += Rx2 - py;
-				}
-				else {
-					x++;
-					px += twoRy2;
-					p += Rx2 - py + px; 
-				}
-				ellipsePlotPoints (xCenter, yCenter, x, y,color);
+				p += Rx2 - py;
 			}
-		
+			else {
+				x++;
+				px += twoRy2;
+				p += Rx2 - py + px; 
+			}
+			ellipsePlotPoints (xCenter, yCenter, x, y,color);
+		}
+
 
 	}
 
@@ -264,101 +325,143 @@ public class Algoritmos {
 		blanco[1]=255;
 		blanco[2]=255;
 		if(!Arrays.equals(blanco, current))
-				{
+		{
 			System.out.println("no es");
-				}
-		
+		}
+
 		if (!Arrays.equals(current,boundary)&&Arrays.equals(blanco, current)){
-			
-			
+
+
 			Test.matriznumeros[x][y].setBackground( new Color(boundary[0], boundary[1], boundary[2]) );
-			
+
 			// recursive call
 			fill(x + 1, y,  boundary);
 			fill(x - 1, y,  boundary);
 			fill(x, y + 1,boundary);
 			fill(x, y - 1,  boundary);
 		}
-		
+
 	}
-	public static  void mover(String direccion)
+	public static  void mover(String direccion,int objeto)
+
 	{
 		switch(direccion)
 		{
 		case "up":
 			try{
+				for(int x=0;x<aObject.size();x++)
+				{
+					if(aObject.get(x).get(2)==objeto)
+					{
+					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)].setBackground(Color.WHITE);
+					}
+				}
+				for(int x=0;x<aObject.size();x++)
+				{
+					if(aObject.get(x).get(2)==objeto)
+					{
+					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)-1].setBackground(new Color(aObject.get(x).get(3),aObject.get(x).get(4),aObject.get(x).get(5)));
+					aObject.get(x).set(1, aObject.get(x).get(1)-1);
+					}
 				
-			//System.out.println("tamaño es "+posicion_objetos.get(3)[0]);
-			for(int x=0;x<aObject.size();x++)
-			{
-			
-				Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)].setBackground(Color.WHITE);
-				Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)-1].setBackground(new Color(aObject.get(x).get(3),aObject.get(x).get(4),aObject.get(x).get(5)));
-				aObject.get(x).set(1, aObject.get(x).get(1)-1);
-				
-			}
+				}
 			}
 			catch(Exception e)
 			{
-				
+
 			}
-		break;
+			break;
 		case "down":
 			try{
 				
-				//System.out.println("tamaño es "+posicion_objetos.get(3)[0]);
 				for(int x=0;x<aObject.size();x++)
 				{
-				
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)].setBackground(Color.WHITE);
+					}
+				}
+				for(int x=0;x<aObject.size();x++)
+				{
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)+1].setBackground(new Color(aObject.get(x).get(3),aObject.get(x).get(4),aObject.get(x).get(5)));
 					aObject.get(x).set(1, aObject.get(x).get(1)+1);
-					
+					}
 				}
-				}
-				catch(Exception e)
-				{
-					
-				}
-			
-		break;
+			}
+			catch(Exception e)
+			{
+
+			}
+
+			break;
 		case "right":
 			try{
-				
-				//System.out.println("tamaño es "+posicion_objetos.get(3)[0]);
 				for(int x=0;x<aObject.size();x++)
 				{
-				
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)].setBackground(Color.WHITE);
+					}
+			    }
+				for(int x=0;x<aObject.size();x++)
+				{
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0)+1)][aObject.get(x).get(1)].setBackground(new Color(aObject.get(x).get(3),aObject.get(x).get(4),aObject.get(x).get(5)));
 					aObject.get(x).set(0,aObject.get(x).get(0)+1);
+					}
 					
 				}
-				}
-				catch(Exception e)
-				{
-					
-				}
-		break;
+			}
+			catch(Exception e)
+			{
+
+			}
+			break;
 		case "left":
-try{
-				
-				//System.out.println("tamaño es "+posicion_objetos.get(3)[0]);
+			try{
 				for(int x=0;x<aObject.size();x++)
 				{
-				
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0))][aObject.get(x).get(1)].setBackground(Color.WHITE);
+					}
+				}
+				for(int x=0;x<aObject.size();x++)
+				{
+					if(aObject.get(x).get(2)==objeto)
+					{
 					Test.matriznumeros[(aObject.get(x).get(0)-1)][aObject.get(x).get(1)].setBackground(new Color(aObject.get(x).get(3),aObject.get(x).get(4),aObject.get(x).get(5)));
 					aObject.get(x).set(0,aObject.get(x).get(0)-1);
+					}
 					
 				}
-				}
-				catch(Exception e)
-				{
-					
-				}
-		break;
-		
+			}
+			catch(Exception e)
+			{
+
+			}
+			break;
+
 		}
 	}
+    public static int obtener_objeto(int x,int y)
+    {
+    	boolean obj=false;
+    	int objeto=0;
+    	while(!obj)
+    	{
+    		if((aObject.get(x).get(0)==x)&&(aObject.get(x).get(1)==y))
+    		{
+    			objeto=aObject.get(x).get(3);
+    			obj=!obj;
+    		}
+    		
+    	}
+    	return objeto;
+    	
+    }
 }
+
