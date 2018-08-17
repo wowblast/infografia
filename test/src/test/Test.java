@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -31,11 +32,11 @@ public  class Test extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	Test t;
-	JButton pintar;
+	JButton cambiar_obj;
 	JLabel posicion_x;
 	JLabel posicion_y;
 	JLabel Titulo,colortitulo,objeto;
-	JButton borrar,zoomas,zoomenos;
+	JButton borrar,zoomas,zoomenos,activargrilla,rotar;
 	JButton pintar_alg1;
 	JButton pintar_alg2;
 	JButton pintar_alg3;
@@ -50,16 +51,16 @@ public  class Test extends JFrame implements ActionListener{
 	JFrame ventana;
 	JPanel mainPanel;
 	static JPanel cuadriculaPanel;
-	JTextField areax;
-	JTextField areay;
+	static JTextField areax;
+	static JTextField areay;
 	static JTextField areaxa,areaya,areaxb,areayb,areaxc,areayc;
 	JLabel p1,p2,p3,numobjeto,nobjeto;
 	int[] color= new int[3];
 	int count;
-	Border border;
+	Border border,border1;
 	Algoritmos alg;
 	JButton c1,c2,c3,c4,c5,c6,c7,c8;
-
+	int contador=1;
 
 
 
@@ -74,6 +75,7 @@ public  class Test extends JFrame implements ActionListener{
 
 
 		border = BorderFactory.createLineBorder(Color.black, 1);
+		border1 = BorderFactory.createLineBorder(Color.WHITE, 1);
 		ventana = new JFrame("Cuadrícula");
 
 		ventana.setSize(1500,1000);
@@ -93,6 +95,12 @@ public  class Test extends JFrame implements ActionListener{
 
 
 		mainPanel.add(colortitulo);
+
+		activargrilla = new JButton();
+		activargrilla.setBounds(0, 50, 200, 25);
+		activargrilla.setText("ACtivar grilla");
+		activargrilla.addActionListener(this);
+		mainPanel.add(activargrilla);
 
 		c1 = new JButton();
 		c1.setBounds(200, 600, 100, 25);
@@ -171,21 +179,21 @@ public  class Test extends JFrame implements ActionListener{
 		mainPanel.add(Titulo);
 
 		posicion_x = new JLabel("Poscicion 1");
-		posicion_x.setBounds(0,500, 100, 25);
+		posicion_x.setBounds(0,800, 100, 25);
 		posicion_x.setText("Posición x:");
 		mainPanel.add(posicion_x);
 
 		posicion_y = new JLabel("Poscicion 1");
-		posicion_y.setBounds(0,550, 100, 25);
+		posicion_y.setBounds(0,850, 100, 25);
 		posicion_y.setText("Posición y:");
 		mainPanel.add(posicion_y);
 
 
-		pintar = new JButton();
-		pintar.setText("Pintar");
-		pintar.setBounds(180, 200, 100, 25);
-		pintar.addActionListener(this);
-		mainPanel.add(pintar);
+		cambiar_obj = new JButton();
+		cambiar_obj.setText("cambiar obj");
+		cambiar_obj.setBounds(165, 200, 130, 25);
+		cambiar_obj.addActionListener(this);
+		mainPanel.add( cambiar_obj);
 
 		borrar = new JButton();
 		borrar.setText("Borrar todo");
@@ -231,23 +239,23 @@ public  class Test extends JFrame implements ActionListener{
 		pintar_alg4.addActionListener(this);
 		mainPanel.add(pintar_alg4);
 		//mover figura
-		
+
 		nobjeto = new JLabel();
 		nobjeto.setText("Numero de objeto");
 		nobjeto.setBounds(200, 820, 100, 25);
 		mainPanel.add(nobjeto);
-		
+
 		numobjeto = new JLabel();
 		numobjeto.setText("0");
 		numobjeto.setBounds(250, 850, 80, 25);
 		mainPanel.add(numobjeto);
-		
+
 		up = new JButton();
 		up.setText("Arriba");
 		up.setBounds(200, 880, 80, 25);
 		up.addActionListener(this);
 		mainPanel.add(up);
-		
+
 		down = new JButton();
 		down.setText("Abajo");
 		down.setBounds(200, 915, 80, 25);
@@ -275,12 +283,12 @@ public  class Test extends JFrame implements ActionListener{
 
 		areax = new JTextField();
 		areax.setText("0");
-		areax.setBounds(100, 500, 50, 25);
+		areax.setBounds(100, 800, 50, 25);
 		mainPanel.add(areax);
 
 		areay = new JTextField();
 		areay.setText("0");
-		areay.setBounds(100, 550, 50, 25);
+		areay.setBounds(100, 850, 50, 25);
 		mainPanel.add(areay);
 
 		p1 = new JLabel();
@@ -314,9 +322,15 @@ public  class Test extends JFrame implements ActionListener{
 		mainPanel.add(areayb);
 
 		p3 = new JLabel();
-		p3.setBounds(220,450, 100, 25);
-		p3.setText("PUNTO 3");
+		p3.setBounds(220,450, 150, 25);
+		p3.setText("PUNTO 3 o eje de rotacion");
 		mainPanel.add(p3);
+
+		rotar = new JButton();
+		rotar.setBounds(300, 480, 100, 25);
+		rotar.setText("Rotar");
+		rotar.addActionListener(this);
+		mainPanel.add(rotar);
 
 		areaxc = new JTextField();
 		areaxc.setText("0");
@@ -356,35 +370,25 @@ public  class Test extends JFrame implements ActionListener{
 							{
 								if(SwingUtilities.isLeftMouseButton(ev))
 								{
-								if(matriznumeros[a1][b1]==ev.getSource())
-								{
-									Algoritmos.posiciones(a1, b1);
-									matriznumeros[(a1)][(b1)].setBackground(Color.BLACK);
+									if(matriznumeros[a1][b1]==ev.getSource())
+									{
+										Algoritmos.posiciones(a1, b1);
+										matriznumeros[(a1)][(b1)].setBackground(Color.BLACK);
+									}
 								}
-								}
+
 								else if(SwingUtilities.isRightMouseButton(ev))
 								{
-								if(matriznumeros[a1][b1]==ev.getSource())
-								{
-									Algoritmos.posiciones(a1, b1);
-									matriznumeros[(a1)][(b1)].setBackground(Color.WHITE);
-								}
-								}
-								else if(SwingUtilities.isMiddleMouseButton(ev))
-								{
 									if(matriznumeros[a1][b1]==ev.getSource())
-								{
-									try
-									{System.out.println("boton medio");
-										//numobjeto.setText(Algoritmos.obtener_objeto(a1, b1)+"");
-									System.out.println(Algoritmos.obtener_objeto(a1, b1)+"");
-									}
-									catch(Exception e)
 									{
-										
+
+										matriznumeros[(a1)][(b1)].setBackground(Color.WHITE);
+
+
 									}
+
 								}
-								}
+
 							}
 						}
 					}
@@ -409,17 +413,7 @@ public  class Test extends JFrame implements ActionListener{
 			cuadriculaPanel.revalidate();
 			cuadriculaPanel.repaint();
 
-			for(int x=0;x<matriznumeros.length;x++)
-			{
-				for(int y=0;y<matriznumeros.length;y++)
-				{
-
-
-					matriznumeros[x][y].setBounds(x*valor, y*valor, valor,valor);
-					cuadriculaPanel.add(matriznumeros[x][y],0);
-
-				}
-			}
+			formar_cuadricula_base(10);
 
 
 		}
@@ -448,25 +442,36 @@ public  class Test extends JFrame implements ActionListener{
 			cuadriculaPanel.removeAll();
 			cuadriculaPanel.revalidate();
 			cuadriculaPanel.repaint();
-			formar_cuadricula_base(valor);
+			for(int x=0;x<matriznumeros.length;x++)
+			{
+				for(int y=0;y<matriznumeros.length;y++)
+				{
+
+
+					matriznumeros[x][y].setBounds(x*valor, y*valor, valor,valor);
+					cuadriculaPanel.add(matriznumeros[x][y],0);
+
+				}
+			}
 		}
-		if(e.getSource()==pintar)
+		if(e.getSource()== cambiar_obj)
 		{
-			matriznumeros[Integer.parseInt((areax.getText()))][Integer.parseInt((areay.getText()))].setBackground(Color.GREEN);
-			System.out.println("asd");
+			numobjeto.setText((Algoritmos.obtener_objeto(Integer.parseInt(areax.getText()), Integer.parseInt(areay.getText())))+"");
 		}
 		if(e.getSource()==pintar_alg1)
 		{
 			Algoritmos.crear_algoritmo_1(Integer.parseInt((areaxa.getText())), Integer.parseInt((areaya.getText())), Integer.parseInt((areaxb.getText())), Integer.parseInt((areayb.getText())),color);
-			numobjeto.setText(Algoritmos.numeros_objeto-1+"");
+			numobjeto.setText(""+(Algoritmos.numeros_objeto-1));
 		}
 		if(e.getSource()==pintar_alg2)
 		{
 			Algoritmos.algoritmobresenham(Integer.parseInt((areaxa.getText())), Integer.parseInt((areaya.getText())), Integer.parseInt((areaxb.getText())), Integer.parseInt((areayb.getText())),color);
-			numobjeto.setText(Algoritmos.numeros_objeto-1+"");
+			
+			numobjeto.setText(""+(Algoritmos.numeros_objeto-1));
 		}
 		if(e.getSource()==pintar_alg3)
 		{
+			try{
 			double respuest;
 			double res1,res2;
 			int x1=Integer.parseInt((areaxa.getText()));
@@ -478,29 +483,63 @@ public  class Test extends JFrame implements ActionListener{
 			respuest=(int)Math.sqrt(res1);
 			System.out.println(respuest);
 			Algoritmos.pintarcirculo(x1, y1, (int)respuest,color);
-			numobjeto.setText(Algoritmos.numeros_objeto-1+"");
+			numobjeto.setText(""+(Algoritmos.numeros_objeto-1));
+			}
+			catch(Exception ee)
+			{
+				JOptionPane.showMessageDialog(null,"Fuera de lienzo "); 
+				for(int x=0;x<matriznumeros.length;x++)
+				{
+					for(int y=0;y<matriznumeros.length;y++)
+					{
+
+
+						matriznumeros[x][y].setBackground(Color.WHITE);
+					
+
+					}
+				}
+			}
 		}
 		if(e.getSource()==pintar_alg4)
 		{
-			int rx,ry;
-			double res1,res2;
-			int x1=Integer.parseInt((areaxa.getText()));
-			int y1=Integer.parseInt((areaya.getText()));
-			int x2= Integer.parseInt((areaxb.getText()));
-			int y2= Integer.parseInt((areayb.getText()));
-			res1=x2-x1;   res2=y2-y1;
-			res1=Math.pow(res1, 2)+Math.pow(res2, 2);
-			rx=(int)Math.sqrt(res1);
-			x1=Integer.parseInt((areaxa.getText()));
-			y1=Integer.parseInt((areaya.getText()));
-			x2= Integer.parseInt((areaxc.getText()));
-			y2= Integer.parseInt((areayc.getText()));
-			res1=x2-x1;   res2=y2-y1;
-			res1=Math.pow(res1, 2)+Math.pow(res2, 2);
-			ry=(int)Math.sqrt(res1);
-			System.out.println("x"+rx+" y"+ry);
-			Algoritmos.ellipseMidpoint(x1, y1, rx, ry,color);
-			numobjeto.setText(Algoritmos.numeros_objeto-1+"");
+			try{
+				int rx,ry;
+				double res1,res2;
+				int x1=Integer.parseInt((areaxa.getText()));
+				int y1=Integer.parseInt((areaya.getText()));
+				int x2= Integer.parseInt((areaxb.getText()));
+				int y2= Integer.parseInt((areayb.getText()));
+				res1=x2-x1;   res2=y2-y1;
+				res1=Math.pow(res1, 2)+Math.pow(res2, 2);
+				rx=(int)Math.sqrt(res1);
+				x1=Integer.parseInt((areaxa.getText()));
+				y1=Integer.parseInt((areaya.getText()));
+				x2= Integer.parseInt((areaxc.getText()));
+				y2= Integer.parseInt((areayc.getText()));
+				res1=x2-x1;   res2=y2-y1;
+				res1=Math.pow(res1, 2)+Math.pow(res2, 2);
+				ry=(int)Math.sqrt(res1);
+				System.out.println("x"+rx+" y"+ry);
+				Algoritmos.ellipseMidpoint(x1, y1, rx, ry,color);
+				numobjeto.setText(""+(Algoritmos.numeros_objeto-1));
+			}
+			catch(Exception ee)
+			{
+				JOptionPane.showMessageDialog(null,"Fuera de lienzo "); 
+				for(int x=0;x<matriznumeros.length;x++)
+				{
+					for(int y=0;y<matriznumeros.length;y++)
+					{
+
+
+						matriznumeros[x][y].setBackground(Color.WHITE);
+
+
+					}
+				}
+			}
+
 
 		}
 		if(e.getSource()==c1)
@@ -553,10 +592,29 @@ public  class Test extends JFrame implements ActionListener{
 		}
 		if(e.getSource()==rellenar)
 		{
-			Algoritmos.fill(Integer.parseInt((areaxa.getText())),Integer.parseInt((areaya.getText())) ,color);
+			try{
+				Algoritmos.fill(Integer.parseInt((areaxa.getText())),Integer.parseInt((areaya.getText())) ,color);
+			}
+			catch(Exception ee)
+			{
+				JOptionPane.showMessageDialog(null,"Fuera de lienzo o objeto no cerrado"); 
+				for(int x=0;x<matriznumeros.length;x++)
+				{
+					for(int y=0;y<matriznumeros.length;y++)
+					{
+
+
+						matriznumeros[x][y].setBackground(Color.WHITE);
+
+
+					}
+				}
+			}
 		}
 		if(e.getSource()==up)
 		{
+			System.out.println("upp ");
+			System.out.println("numeros de objeos "+numobjeto.getText());
 			Algoritmos.mover("up",Integer.parseInt(numobjeto.getText()));
 		}
 		if(e.getSource()==down)
@@ -569,7 +627,19 @@ public  class Test extends JFrame implements ActionListener{
 		}
 		if(e.getSource()==left)
 		{
+
+
 			Algoritmos.mover("left",Integer.parseInt(numobjeto.getText()));
+		}
+		if(e.getSource()==rotar)
+		{
+			int x2= Integer.parseInt((areaxc.getText()));
+			int y2= Integer.parseInt((areayc.getText()));
+			Algoritmos.rotate(x2, y2,Integer.parseInt(numobjeto.getText()));
+		}
+		if(e.getSource()==activargrilla)
+		{
+			quitargrilla();
 		}
 
 	}
@@ -593,7 +663,43 @@ public  class Test extends JFrame implements ActionListener{
 		}
 	}/*
 
+
 	 }*/
+	public void quitargrilla()
+	{
+		if(contador==0)
+		{
+			for(int x=0;x<matriznumeros.length;x++)
+			{
+				for(int y=0;y<matriznumeros.length;y++)
+				{
+
+
+					matriznumeros[x][y].setBorder(border);
+
+
+
+				}
+			}
+			contador=1;
+		}
+		else
+		{
+			for(int x=0;x<matriznumeros.length;x++)
+			{
+				for(int y=0;y<matriznumeros.length;y++)
+				{
+
+
+					matriznumeros[x][y].setBorder(border1);
+
+
+
+				}
+			}
+			contador=0;
+		}
+	}
 
 	public static void main(String[] args){
 
